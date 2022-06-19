@@ -26,17 +26,17 @@ function StartState:render()
 
 	--render the first option blue if we're highlighting it
 	if highlighted == 1 then
-		love.graphics.setColor(103, 0, 0.3, 0.9)
+		love.graphics.setColor(1, 0, 0.3, 0.9)
 	end
 
 	love.graphics.printf("Start", 0, VIRTUAL_HEIGHT / 2 + 70, VIRTUAL_WIDTH, 'center')
 
 	--reset the color
-	love.graphics.setColor(0, 1, 1, 1)
+	love.graphics.setColor(1, 1, 1, 1)
 
 	--render the second option blue if we're highlighting it
 	if highlighted == 2 then
-		love.graphics.setColor(103, 0, 0.3, 0.9)
+		love.graphics.setColor(1, 0, 0.3, 0.9)
 	end
 
 	love.graphics.printf("High Scores", 0, VIRTUAL_HEIGHT / 2 + 90, VIRTUAL_WIDTH, 'center')

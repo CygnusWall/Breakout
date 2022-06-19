@@ -1,9 +1,10 @@
 -- Josiah Polite's version of Harvards GD50 Breakout
 
-require 'src/Dependencies'
+Class = require 'class'
+
 push = require 'push'
 
-Class = require 'class'
+require 'src/Dependencies'
 
 -- called once at the begining of the game to set up objects, variables etc
 
