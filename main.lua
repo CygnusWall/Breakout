@@ -64,5 +64,57 @@ function love.load()
 
 end
 
+function love.resize(w,h)
+	push:resize(w,h)
+end
 
+function love.update()
+	gStateMachine:update(dt)
 
+	--reset the keys pressed every frame
+	love.keyboard.keysPressed = {}
+end
+
+function love.keypressed(key)
+	love.keyboard.keysPressed[key] = true
+end
+
+function love.keyboard.wasPressed(key)
+	if love.keyboard.keysPressed[key] then
+		return true
+	else
+		return false
+	end
+end
+
+function love.draw()
+
+	--begin drawing with push in our virtual resolution
+	push:apply('start')
+
+	--background should be drawn regardless of state, scaled to fit our virtual resolution
+	local backgroundWidth = gTextures['background']:getWidth()
+	local backgroundHeight = gTextures['background']:getHeight()
+
+	love.graphics.draw(gTextures['background'],
+		--drqw at coordinates 0,0
+		0, 0, 
+		--no rotation
+		0,
+		--scale on the x and y axis so it fits the screen
+		VIRTUAL_WIDTH / (backgroundWidth - 1), VIRTUAL_HEIGHT / (backgroundHeight - 1))
+
+	--use the state machine to defer rendering to the current state we're in
+	gStateMachine:render()
+
+	displayFPS()
+
+	push:apply('end')
+end
+
+function displayFPS()
+	--FPS display across all states
+	love.graphics.setFont(gFonts['small'])
+	love.graphics.setColor(0, 1, 1, 1)
+	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
+end

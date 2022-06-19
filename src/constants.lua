@@ -1,0 +1,7 @@
+--global constants stored here
+
+WINDOW_WIDTH = 1366
+WINDOW_HEIGHT = 768
+
+VIRTUAL_WIDTH = 432
+VIRTUAL_HEIGHT = 243
