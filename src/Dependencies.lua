@@ -5,4 +5,4 @@ require 'src/constants'
 require 'src/StateMachine'
 
 require 'src/states/BaseState'
-require 'scr/states/StartState'
+require 'src/states/StartState'
