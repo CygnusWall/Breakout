@@ -1,9 +1,5 @@
 -- Josiah Polite's version of Harvards GD50 Breakout
 
-Class = require 'class'
-
-push = require 'push'
-
 require 'src/Dependencies'
 
 -- called once at the begining of the game to set up objects, variables etc
@@ -55,7 +51,7 @@ function love.load()
 		['high-score'] = love.audio.newSource('sounds/high_score.wav', 'static'),
 		['pause'] = love.audio.newSource('sounds/pause.wav', 'static'),
 
-		['music'] = love.audio.newSource('sounds/music.wav', 'static')
+		['music'] = love.audio.newSource('sounds/music.wav', 'stream')
 	}
 
 	gStateMachine = StateMachine {
@@ -75,6 +71,8 @@ end
 function love.update()
 	gStateMachine:update(dt)
 
+	--gSounds['music']:play()
+	
 	--reset the keys pressed every frame
 	love.keyboard.keysPressed = {}
 end
