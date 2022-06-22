@@ -13,6 +13,8 @@ require 'src/StateMachine'
 --various states of the game
 require 'src/states/BaseState'
 require 'src/states/StartState'
+require 'src/states/PlayState'
+require 'Paddle'
 
 --utility function used for splitting up the sprite sheet
 require 'src/Util'

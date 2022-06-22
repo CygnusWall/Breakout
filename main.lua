@@ -5,6 +5,7 @@ require 'src/Dependencies'
 -- called once at the begining of the game to set up objects, variables etc
 
 function love.load()
+
 	-- set the default filter to 'nearest neighbour' so that the pixelated look isn't smoothed out
 	love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -27,6 +28,10 @@ function love.load()
 		['arrows'] = love.graphics.newImage('graphics/arrows.png'),
 		['hearts'] = love.graphics.newImage('graphics/hearts.png'),
 		['particle'] = love.graphics.newImage('graphics/particle.png')
+	}
+
+	gFrames = {
+		['paddles'] = GenerateQuadsPaddles(gTextures['main'])
 	}
 
 	--initialize the virtual resolution
@@ -55,7 +60,9 @@ function love.load()
 	}
 
 	gStateMachine = StateMachine {
+		['play'] = function() return PlayState() end,
 		['start'] = function() return StartState() end
+		
 	}
 	gStateMachine:change('start')
 
@@ -68,7 +75,7 @@ function love.resize(w,h)
 	push:resize(w,h)
 end
 
-function love.update()
+function love.update(dt)
 	gStateMachine:update(dt)
 
 	--gSounds['music']:play()
