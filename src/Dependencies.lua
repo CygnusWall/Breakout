@@ -16,6 +16,7 @@ require 'src/states/StartState'
 require 'src/states/PlayState'
 require 'Paddle'
 require 'Ball'
+require 'Brick'
 
 --utility function used for splitting up the sprite sheet
 require 'src/Util'

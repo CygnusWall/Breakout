@@ -4,6 +4,8 @@ function PlayState:init()
 
 	self.paddle = Paddle()
 	self.ball = Ball(math.random(7))
+	self.bricks = Brick(0, 0)
+
 
 	--give ball random starting velocity
 	--self.ball.dx = math.random(-200, 200)
@@ -36,6 +38,13 @@ function PlayState:update(dt)
 	self.paddle:update(dt)
 	self.ball:update(dt)
 
+	if self.ball:collides(self.paddle) then
+		--flip the y velocity 
+		self.ball.y = VIRTUAL_HEIGHT - 42
+		self.ball.dy = -self.ball.dy
+		gSounds['paddle-hit']:play()
+	end
+
 	if love.keyboard.wasPressed('escape') then
 		love.event.quit()
 	end
@@ -44,6 +53,7 @@ end
 function PlayState:render()
 	self.paddle:render()
 	self.ball:render()
+	self.bricks:render()
 
 	--pause text if paused
 	if self.paused then 
