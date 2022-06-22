@@ -53,6 +53,24 @@ function PlayState:update(dt)
 		--flip the y velocity 
 		self.ball.y = VIRTUAL_HEIGHT - 42
 		self.ball.dy = -self.ball.dy
+
+		--makes it so that hitting the ball on the side of the paddle it came at sends it back in the same direction
+		--this is scaled by the region of the paddle hit, so hitting off corners gives you a speed boost and a 
+		--shallower angle
+		if self.ball.dx > 0 and self.ball.x < self.paddle.x + self.paddle.width / 2 then
+			--if the paddle is moving then we send the ball back where it came from, if not let it bounce off normally
+			if self.paddle.dx < 0 then
+				--flipping the dx and scaling it by the distance from paddle center hit and a scale value
+				self.ball.dx = -self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE
+			end
+		end
+
+		if self.ball.dx < 0 and self.ball.x > self.paddle.x + self.paddle.width / 2 then
+			if self.paddle.dx > 0 then
+				self.ball.dx = -self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE
+			end
+		end
+
 		gSounds['paddle-hit']:play()
 	end
 

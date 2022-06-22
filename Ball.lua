@@ -1,8 +1,8 @@
 Ball = Class{}
 
 function Ball:init(skin)
-	self.width = 6
-	self.height = 6
+	self.width = 8
+	self.height = 8
 
 	self.dx = 0
 	self.dy = 0
@@ -17,7 +17,7 @@ function Ball:collides(target)
 	end
 
 	--checks to see the bottom edge of either is higher than the top edge of the other
-	if self.y > target.y + target.width or target.y > self.y + self.width then
+	if self.y > target.y + target.height or target.y > self.y + self.height then
 		return false
 	end
 
