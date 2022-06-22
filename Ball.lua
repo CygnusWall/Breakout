@@ -1,8 +1,8 @@
 Ball = Class{}
 
 function Ball:init(skin)
-	self.width = 8
-	self.height = 8
+	self.width = 6
+	self.height = 6
 
 	self.dx = 0
 	self.dy = 0

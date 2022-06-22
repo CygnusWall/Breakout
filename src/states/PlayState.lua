@@ -1,11 +1,13 @@
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
+	self.x = 0
+	self.y = 0
 
 	self.paddle = Paddle()
 	self.ball = Ball(math.random(7))
-	self.bricks = Brick(0, 0)
 
+	self.bricks = LevelMaker.createMap()
 
 	--give ball random starting velocity
 	--self.ball.dx = math.random(-200, 200)
@@ -38,6 +40,15 @@ function PlayState:update(dt)
 	self.paddle:update(dt)
 	self.ball:update(dt)
 
+	for k, brick in pairs(self.bricks) do
+		--only check collision if the brick is in play
+		if brick.inPlay and self.ball:collides(brick) then
+			brick:hit()
+			--detect ball's direction and flip dy accordingly
+			self.ball.dy = -self.ball.dy
+		end
+	end
+
 	if self.ball:collides(self.paddle) then
 		--flip the y velocity 
 		self.ball.y = VIRTUAL_HEIGHT - 42
@@ -53,7 +64,10 @@ end
 function PlayState:render()
 	self.paddle:render()
 	self.ball:render()
-	self.bricks:render()
+
+	for k, brick in pairs(self.bricks) do
+		brick:render()
+	end
 
 	--pause text if paused
 	if self.paused then 
