@@ -1,6 +1,6 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init()
+--[[function PlayState:init()
 	self.x = 0
 	self.y = 0
 
@@ -20,6 +20,20 @@ function PlayState:init()
 	self.ball.x = VIRTUAL_WIDTH / 2 - 4
 	self.ball.y = VIRTUAL_HEIGHT / 2 - 4
 	self.paused = false
+end
+]]--
+
+function PlayState:enter(params)
+	--grab game state from params
+	self.paddle = params.paddle
+	self.bricks = params.bricks
+
+	self.ball = params.ball
+	self.ball.skin = params.skin
+
+	self.ball.dx = 100
+	self.ball.dy = -100
+
 end
 
 function PlayState:update(dt)
