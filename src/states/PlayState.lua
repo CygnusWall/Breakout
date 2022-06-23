@@ -73,32 +73,54 @@ function PlayState:update(dt)
 	end
 
 	if self.ball:collides(self.paddle) then
-		--flip the y velocity 
-		self.ball.y = VIRTUAL_HEIGHT - 42
-		self.ball.dy = -self.ball.dy
+		--flip the y velocity if it collides from the top
+		if self.ball.dy > 0 and self.ball.y + self.ball.height >= self.paddle.y and self.ball.y <= self.paddle.y + 2 then
+			--reset the ball on top of paddle to avoid infinite collision
+			self.ball.y = self.paddle.y - self.ball.height
+			--flip the y velocity
+			self.ball.dy = -self.ball.dy
 
-		--makes it so that hitting the ball on the side of the paddle it came at sends it back in the same direction
-		--this is scaled by the region of the paddle hit, so hitting off corners gives you a speed boost and a 
-		--shallower angle
-		if self.ball.dx > 0 and self.ball.x < self.paddle.x + self.paddle.width / 2 then
-			--if the paddle is moving then we send the ball back where it came from, if not let it bounce off normally
-			if self.paddle.dx < 0 then
-				--flipping the dx and scaling it by the distance from paddle center hit and a scale value
-				--math.min is used so that if the angle is too steep and the ball too slow it chooses the default value
-				--and just sends it back where it came from with no change in angle
-				--math.abs is used to turn the negative value to positive so that the calculations are correct
-				self.ball.dx = math.min(-self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE, -self.ball.dx)
+			gSounds['paddle-hit']:play()
+
+			--makes it so that hitting the ball on the side of the paddle it came at sends it back in the same direction
+			--this is scaled by the region of the paddle hit, so hitting off corners gives you a speed boost and a 
+			--shallower angle
+			if self.ball.dx > 0 and self.ball.x < self.paddle.x + self.paddle.width / 2 then
+				--if the paddle is moving then we send the ball back where it came from, if not let it bounce off normally
+				if self.paddle.dx < 0 then
+					--flipping the dx and scaling it by the distance from paddle center hit and a scale value
+					--math.min is used so that if the angle is too steep and the ball too slow it chooses the default value
+					--and just sends it back where it came from with no change in angle
+					--math.abs is used to turn the negative value to positive so that the calculations are correct
+					self.ball.dx = math.min(-self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE, -self.ball.dx)
+				end
 			end
-		end
 
-		if self.ball.dx < 0 and self.ball.x > self.paddle.x + self.paddle.width / 2 then
-			if self.paddle.dx > 0 then
-				--math.max has the same function here as math.min except that dx is positive here so math.max must be used
-				self.ball.dx = math.max(-self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE, -self.ball.dx)
+			if self.ball.dx < 0 and self.ball.x > self.paddle.x + self.paddle.width / 2 then
+				if self.paddle.dx > 0 then
+					--math.max has the same function here as math.min except that dx is positive here so math.max must be used
+					self.ball.dx = math.max(-self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE, -self.ball.dx)
+				end
 			end
-		end
+		
+		
+		--checks for left and right collision
+		--left incoming
+		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dx > 0 then
 
-		gSounds['paddle-hit']:play()
+		 	gSounds['brick-hit-1']:play()
+			self.ball.dx = -self.ball.dx
+			--reset the ball x outside of paddle
+			self.ball.x = self.paddle.x - self.ball.width
+		else --self.ball.x < self.paddle.x + self.paddle.width and self.ball.dx < 0 then
+			gSounds['brick-hit-2']:play()
+			self.ball.dx = -self.ball.dx
+			--reset the ball outside of paddle
+			--self.ball.x = self.paddle.x + self.paddle.width
+			self.ball.x = self.paddle.x + self.paddle.width
+		end
+		
+		
 	end
 
 	if love.keyboard.wasPressed('escape') then
