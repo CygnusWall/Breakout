@@ -3,7 +3,7 @@ Brick = Class{}
 function Brick:init(x, y)
 	--use for colors and score calculation
 	self.tier = 0
-	self.color = 1
+	self.color = 4
 
 	self.x = x
 	self.y = y
@@ -16,7 +16,9 @@ function Brick:init(x, y)
 end
 
 function Brick:hit()
-	gSounds['brick-hit-2']:play()
+	--gSounds['brick-hit-2']:play()
+	
+	playSound(gSounds['brick-hit-1'])
 
 	self.inPlay = false
 end
@@ -26,6 +28,6 @@ function Brick:render()
 		love.graphics.draw(gTextures['main'],
 		--multiply color by 4 (-1) to get the color offset
 		--then add tier to draw the correct color and tier brick to the screen
-		gFrames['bricks'][3], self.x, self.y)
+		gFrames['bricks'][self.color], self.x, self.y)
 	end
 end

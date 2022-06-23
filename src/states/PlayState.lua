@@ -63,7 +63,7 @@ function PlayState:update(dt)
 					self.ball.dy = -self.ball.dy
 					self.ball.y = brick.y
 				--from the bottom
-				elseif self.ball.y + 6 > brick.y + brick.height and self.ball.dy < 0 then
+				else -- self.ball.y + 6 > brick.y + brick.height and self.ball.dy < 0 then
 					self.ball.dy = -self.ball.dy
 					self.ball.y = brick.y + brick.height
 				end
@@ -103,23 +103,44 @@ function PlayState:update(dt)
 				end
 			end
 		
-		
+
 		--checks for left and right collision
 		--left incoming
-		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dx > 0 then
+		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dx > 0 and self.ball.dy > 0 then
+			if self.paddle.dx == 0 then
+			 	gSounds['brick-hit-1']:play()
+				self.ball.dx = -self.ball.dx
+				--reset the ball x outside of paddle
+				self.ball.x = self.paddle.x - self.ball.width
+			else
+				gSounds['brick-hit-1']:play()
+				self.ball.dx = -self.ball.dx
+				--reset the ball x outside of paddle
+				self.ball.x = self.paddle.x - self.ball.width - 15
+			end
 
-		 	gSounds['brick-hit-1']:play()
-			self.ball.dx = -self.ball.dx
-			--reset the ball x outside of paddle
-			self.ball.x = self.paddle.x - self.ball.width
-		else --self.ball.x < self.paddle.x + self.paddle.width and self.ball.dx < 0 then
-			gSounds['brick-hit-2']:play()
-			self.ball.dx = -self.ball.dx
-			--reset the ball outside of paddle
-			--self.ball.x = self.paddle.x + self.paddle.width
-			self.ball.x = self.paddle.x + self.paddle.width
+		elseif self.ball.x < self.paddle.x + self.paddle.width and self.ball.dx < 0 and self.ball.dy > 0 then
+
+			if self.paddle.dx == 0 then
+				gSounds['hurt']:play()
+				self.ball.dx = -self.ball.dx
+				--reset the ball outside of paddle
+				--self.ball.x = self.paddle.x + self.paddle.width
+				self.ball.x = self.paddle.x + self.paddle.width
+			else
+				gSounds['brick-hit-1']:play()
+				self.ball.dx = -self.ball.dx
+				--reset the ball x outside of paddle
+				self.ball.x = self.paddle.x + self.paddle.width + 15
+			end
+
+		else
+		--checks for bottom collision
+		--elseif self.ball.dy < 0 then
+			self.ball.dy = -self.ball.dy
+			self.ball.y = self.paddle.y + self.paddle.height + 6
+			gSounds['confirm']:play()
 		end
-		
 		
 	end
 

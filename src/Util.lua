@@ -118,3 +118,8 @@ end
 ]]--
 
 end
+
+function playSound(source)
+	local clone = source:clone()
+	clone:play()
+end
