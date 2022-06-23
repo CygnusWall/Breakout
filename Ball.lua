@@ -65,6 +65,16 @@ function Ball:update(dt)
 		gSounds['wall-hit']:play()
 	end
 
+	
+	--cap the ball speed
+	if self.dx >= BALL_MAX_SPEED then
+		self.dx = BALL_MAX_SPEED
+	end
+
+	if self.dx <= -BALL_MAX_SPEED then
+		self.dx = -BALL_MAX_SPEED
+	end
+	
 end
 
 function Ball:render()
