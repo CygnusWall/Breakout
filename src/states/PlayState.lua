@@ -66,7 +66,7 @@ function PlayState:update(dt)
 				--detect ball's direction and flip dy accordingly
 
 				--from the left
-				if self.ball.x + 6 < brick.x and self.ball.dx > 0 then
+				if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
 					self.ball.dx = -self.ball.dx
 					--reset the ball so it doesn't go through everything
 					self.ball.x = brick.x
@@ -75,9 +75,9 @@ function PlayState:update(dt)
 					self.ball.dx = -self.ball.dx
 					self.ball.x = brick.x + brick.width
 				--from the top 
-				elseif self.ball.y + 6 < brick.y and self.ball.dy > 0 then
+				elseif self.ball.y + self.ball.width < brick.y and self.ball.dy > 0 then
 					self.ball.dy = -self.ball.dy
-					self.ball.y = brick.y
+					self.ball.y = brick.y - self.ball.height
 				--from the bottom
 				else -- self.ball.y + 6 > brick.y + brick.height and self.ball.dy < 0 then
 					self.ball.dy = -self.ball.dy
