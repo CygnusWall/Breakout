@@ -24,9 +24,9 @@ end
 
 function Paddle:update(dt)
 	if love.keyboard.isDown('left') then
-		self.dx = -PADDLE_SPEED
+		self.dx = -PADDLE_SPEED * dt
 	elseif love.keyboard.isDown('right') then
-		self.dx = PADDLE_SPEED
+		self.dx = PADDLE_SPEED * dt
 	else 
 		self.dx = 0
 	end

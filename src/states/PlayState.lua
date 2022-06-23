@@ -61,13 +61,17 @@ function PlayState:update(dt)
 			--if the paddle is moving then we send the ball back where it came from, if not let it bounce off normally
 			if self.paddle.dx < 0 then
 				--flipping the dx and scaling it by the distance from paddle center hit and a scale value
-				self.ball.dx = -self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE
+				--math.min is used so that if the angle is too steep and the ball too slow it chooses the default value
+				--and just sends it back where it came from with no change in angle
+				--math.abs is used to turn the negative value to positive so that the calculations are correct
+				self.ball.dx = math.min(-self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE, -self.ball.dx)
 			end
 		end
 
 		if self.ball.dx < 0 and self.ball.x > self.paddle.x + self.paddle.width / 2 then
 			if self.paddle.dx > 0 then
-				self.ball.dx = -self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE
+				--math.max has the same function here as math.min except that dx is positive here so math.max must be used
+				self.ball.dx = math.max(-self.ball.dx * math.abs((self.ball.x - (self.paddle.x + self.paddle.width) / 2)) * PADDLE_EDGE_SCALE, -self.ball.dx)
 			end
 		end
 

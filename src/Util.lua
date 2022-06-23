@@ -21,6 +21,7 @@ end
 function table.slice(tbl, first, last, step)
 	local sliced = {}
 
+	--for the first(parameter) or from the first index, till the last(parameter) or end of table, increment in step(parameter) or 1
 	for i = first or 1, last or #tbl, step or 1 do
 		sliced[#sliced+1] = tbl[i]
 	end

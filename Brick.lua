@@ -26,6 +26,6 @@ function Brick:render()
 		love.graphics.draw(gTextures['main'],
 		--multiply color by 4 (-1) to get the color offset
 		--then add tier to draw the correct color and tier brick to the screen
-		gFrames['bricks'][1], self.x, self.y)
+		gFrames['bricks'][3], self.x, self.y)
 	end
 end

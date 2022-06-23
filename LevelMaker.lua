@@ -15,7 +15,7 @@ function LevelMaker.createMap(level)
 					(x-1)
 					* 32 --multiply by 32 because that's the brick width
 					+ 8  -- eight pixels of buffer
-					+ (13 - numCols) * 16,
+					+ (10 - numCols) * 16,
 
 					--y coordinate
 					y * 16

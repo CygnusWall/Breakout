@@ -14,6 +14,7 @@ function love.load()
 
 	love.window.setTitle('Breakout')
 
+	--table for storing the fonts
 	gFonts = {
 		['small'] = love.graphics.newFont('fonts/font.ttf', 8),
 		['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
@@ -58,6 +59,7 @@ function love.load()
 		['high-score'] = love.audio.newSource('sounds/high_score.wav', 'static'),
 		['pause'] = love.audio.newSource('sounds/pause.wav', 'static'),
 
+		--music is set to stream because it's better for music, static is used for sound effects
 		['music'] = love.audio.newSource('sounds/music.wav', 'stream')
 	}
 
@@ -79,8 +81,6 @@ end
 
 function love.update(dt)
 	gStateMachine:update(dt)
-
-	--gSounds['music']:play()
 	
 	--reset the keys pressed every frame
 	love.keyboard.keysPressed = {}
