@@ -41,12 +41,35 @@ function PlayState:update(dt)
 	self.ball:update(dt)
 
 	for k, brick in pairs(self.bricks) do
-		--only check collision if the brick is in play
-		if brick.inPlay and self.ball:collides(brick) then
-			brick:hit()
-			--detect ball's direction and flip dy accordingly
-			self.ball.dy = -self.ball.dy
-		end
+			--only check collision if the brick is in play
+			if brick.inPlay and self.ball:collides(brick) then
+				brick:hit()
+
+				self.start = love.timer.getTime()
+				HIT = true
+				--detect ball's direction and flip dy accordingly
+
+				--from the left
+				if self.ball.x + 6 < brick.x and self.ball.dx > 0 then
+					self.ball.dx = -self.ball.dx
+					--reset the ball so it doesn't go through everything
+					self.ball.x = brick.x
+				--from the right
+				elseif self.ball.x + 6 > brick.x + brick.width and self.ball.dx < 0 then
+					self.ball.dx = -self.ball.dx
+					self.ball.x = brick.x + brick.width
+				--from the top 
+				elseif self.ball.y + 6 < brick.y and self.ball.dy > 0 then
+					self.ball.dy = -self.ball.dy
+					self.ball.y = brick.y
+				--from the bottom
+				elseif self.ball.y + 6 > brick.y + brick.height and self.ball.dy < 0 then
+					self.ball.dy = -self.ball.dy
+					self.ball.y = brick.y + brick.height
+				end
+
+			end
+
 	end
 
 	if self.ball:collides(self.paddle) then

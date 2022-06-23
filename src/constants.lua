@@ -10,6 +10,9 @@ PADDLE_SPEED = 15000
 
 --used to scale the speed of the ball deflected depending on how far the edge that it hit was from the 
 --center of the paddle
-PADDLE_EDGE_SCALE = 1
+PADDLE_EDGE_SCALE = 0.01
 
-BALL_MAX_SPEED = 100 
+BALL_MAX_SPEED = 250
+
+HIT_TIMER = 0.05
+HIT = false 
