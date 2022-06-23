@@ -31,7 +31,9 @@ function PlayState:enter(params)
 	self.ball = params.ball
 	self.ball.skin = params.skin
 
-	self.ball.dx = 100
+	--allows the player to guide the ball based on what direction the paddle is moving
+	--may be a lot cleaner with an if statement but I wanted to implement it with math
+	self.ball.dx = self.paddle.dx + math.random(-200, 200)
 	self.ball.dy = -100
 
 end
@@ -120,12 +122,12 @@ function PlayState:update(dt)
 
 		--checks for left and right collision
 		--left incoming
-		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dx > 0 and self.ball.dy > 0 then
+		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dy > 0 and self.ball.dx > 0 then
 			if self.paddle.dx == 0 then
-			 	gSounds['brick-hit-1']:play()
+			 	gSounds['hurt']:play()
 				self.ball.dx = -self.ball.dx
 				--reset the ball x outside of paddle
-				self.ball.x = self.paddle.x - self.ball.width
+				self.ball.x = self.paddle.x - self.ball.width - 5
 			else
 				gSounds['brick-hit-1']:play()
 				self.ball.dx = -self.ball.dx
@@ -133,14 +135,15 @@ function PlayState:update(dt)
 				self.ball.x = self.paddle.x - self.ball.width - 15
 			end
 
-		elseif self.ball.x < self.paddle.x + self.paddle.width and self.ball.dx < 0 and self.ball.dy > 0 then
+		--right incoming
+		elseif self.ball.x - 2 <= self.paddle.x + self.paddle.width and self.ball.dy > 0 then
 
 			if self.paddle.dx == 0 then
 				gSounds['hurt']:play()
 				self.ball.dx = -self.ball.dx
 				--reset the ball outside of paddle
 				--self.ball.x = self.paddle.x + self.paddle.width
-				self.ball.x = self.paddle.x + self.paddle.width
+				self.ball.x = self.paddle.x + self.paddle.width + 5
 			else
 				gSounds['brick-hit-1']:play()
 				self.ball.dx = -self.ball.dx
