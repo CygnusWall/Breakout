@@ -59,6 +59,44 @@ function PlayState:update(dt)
 	self.paddle:update(dt)
 	self.ball:update(dt)
 
+	--ball bouncing
+
+
+	--allow ball to bounce off walls
+	--right wall
+	if self.ball.x + self.ball.width > VIRTUAL_WIDTH then
+		self.ball.x = VIRTUAL_WIDTH - self.ball.width
+		self.ball.dx = -self.ball.dx
+		gSounds['wall-hit']:play()
+	end
+
+	--left wall
+	if self.ball.x <= 0 then
+		self.ball.x = 0
+		self.ball.dx = -self.ball.dx
+		gSounds['wall-hit']:play()
+	end
+
+	--ceiling
+	if self.ball.y <= 0 then
+		self.ball.y = 0
+		self.ball.dy = -self.ball.dy
+		gSounds['wall-hit']:play()
+	end
+
+	--allows ball to bounce off the floor for debugging purposes
+	if self.ball.y > VIRTUAL_HEIGHT then
+		self.ball.y = VIRTUAL_HEIGHT - self.ball.height
+		self.ball.dy = -self.ball.dy
+		gSounds['wall-hit']:play()
+		self.hearts:hit()
+	end
+
+	
+	
+
+
+
 	for k, brick in pairs(self.bricks) do
 			--only check collision if the brick is in play
 			if brick.inPlay and self.ball:collides(brick) then
@@ -160,6 +198,7 @@ function PlayState:update(dt)
 			self.ball.dy = -self.ball.dy
 			self.ball.y = self.paddle.y + self.paddle.height + 6
 			gSounds['confirm']:play()
+
 		end
 		
 	end

@@ -8,6 +8,7 @@ function Ball:init(skin)
 	self.dy = 0
 
 	self.skin = skin
+
 end
 
 function Ball:collides(target)
@@ -36,36 +37,6 @@ function Ball:update(dt)
 	self.x = self.x + self.dx * dt
 	self.y = self.y + self.dy * dt
 
-	--allow ball to bounce off walls
-	--right wall
-	if self.x + self.width > VIRTUAL_WIDTH then
-		self.x = VIRTUAL_WIDTH - self.width
-		self.dx = -self.dx
-		gSounds['wall-hit']:play()
-	end
-
-	--left wall
-	if self.x <= 0 then
-		self.x = 0
-		self.dx = -self.dx
-		gSounds['wall-hit']:play()
-	end
-
-	--ceiling
-	if self.y <= 0 then
-		self.y = 0
-		self.dy = -self.dy
-		gSounds['wall-hit']:play()
-	end
-
-	--allows ball to bounce off the floor for debugging purposes
-	if self.y > VIRTUAL_HEIGHT then
-		self.y = VIRTUAL_HEIGHT - self.height
-		self.dy = -self.dy
-		gSounds['wall-hit']:play()
-	end
-
-	
 	--cap the ball speed
 	if self.dx >= BALL_MAX_SPEED then
 		self.dx = BALL_MAX_SPEED
