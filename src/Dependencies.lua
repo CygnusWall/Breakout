@@ -19,6 +19,7 @@ require 'Paddle'
 require 'Ball'
 require 'Brick'
 require 'LevelMaker'
+require 'Hearts'
 
 --utility function used for splitting up the sprite sheet
 require 'src/Util'

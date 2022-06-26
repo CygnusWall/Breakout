@@ -119,6 +119,23 @@ end
 
 end
 
+function GenerateQuadsHearts(atlas)
+
+	local x = 128
+	local y = 48
+
+	local counter = 1
+	local quads = {}
+
+		for i = 0, 2 do
+			quads[counter] = love.graphics.newQuad(x, y, 10, 10, atlas:getDimensions())
+			x = x + 10
+			counter = counter + 1
+		end
+
+		return quads
+end
+
 function playSound(source)
 	local clone = source:clone()
 	clone:play()

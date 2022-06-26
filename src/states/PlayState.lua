@@ -31,6 +31,9 @@ function PlayState:enter(params)
 	self.ball = params.ball
 	self.ball.skin = params.skin
 
+	--hearts has to be created since this is the first time use
+	self.hearts = Hearts()
+
 	--allows the player to guide the ball based on what direction the paddle is moving
 	--may be a lot cleaner with an if statement but I wanted to implement it with math
 	self.ball.dx = self.paddle.dx + math.random(-200, 200)
@@ -169,6 +172,8 @@ end
 function PlayState:render()
 	self.paddle:render()
 	self.ball:render()
+
+	self.hearts:render()
 
 	for k, brick in pairs(self.bricks) do
 		brick:render()

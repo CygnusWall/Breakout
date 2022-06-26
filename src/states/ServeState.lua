@@ -9,6 +9,8 @@ function ServeState:enter(params)
 	self.ball = Ball()
 	self.second = 0
 	self.minute = 0
+
+	self.double_digits = true
 	
 
 	self.ball.skin = math.random(7)
@@ -25,6 +27,12 @@ function ServeState:update(dt)
 	if self.second >= 60 then
 		self.second = 0
 		self.minute = self.minute + 1
+	end
+
+	--if the minutes timer is in the double digits shift it around to make room for the seconds
+	if self.minute >= 10 and self.double_digits then
+		X_OFFSET = X_OFFSET + 5
+		self.double_digits = false
 	end
 
 	--move the ball with the paddle
@@ -53,8 +61,8 @@ function ServeState:render()
 	self.ball:render()
 
 	--render the minutes
-	love.graphics.print('Timer: ' .. tostring(self.minute), VIRTUAL_WIDTH - Y_OFFSET, 20)
+	love.graphics.print('Timer: ' .. tostring(self.minute), VIRTUAL_WIDTH - X_OFFSET, 20)
 	--render the seconds
-	love.graphics.print(':' .. tostring(math.floor(self.second)), VIRTUAL_WIDTH - Y_OFFSET + 32, 20)
+	love.graphics.print(':' .. tostring(math.floor(self.second)), VIRTUAL_WIDTH - 28, 20)
 	--make the numbers shift around dynamically when the number of digits increase...coming soon
 end

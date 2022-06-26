@@ -34,7 +34,8 @@ function love.load()
 	gFrames = {
 		['paddles'] = GenerateQuadsPaddles(gTextures['main']),
 		['balls'] = GenerateQuadsBalls(gTextures['main']),
-		['bricks'] = GenerateQuadsBricks(gTextures['main'])
+		['bricks'] = GenerateQuadsBricks(gTextures['main']),
+		['hearts'] = GenerateQuadsHearts(gTextures['main'])
 	}
 
 	--initialize the virtual resolution
