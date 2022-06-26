@@ -16,3 +16,5 @@ BALL_MAX_SPEED = 250
 
 HIT_TIMER = 0.05
 HIT = false 
+
+Y_OFFSET = 60

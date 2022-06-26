@@ -7,12 +7,25 @@ function ServeState:enter(params)
 
 	--ball has to be created since this is the first use
 	self.ball = Ball()
+	self.second = 0
+	self.minute = 0
+	
 
 	self.ball.skin = math.random(7)
 end
 
 function ServeState:update(dt)
 	self.paddle:update(dt)
+
+	--increment timer by deltatime
+	self.second = self.second + dt
+
+	--modulo would not work here, not sure why, opted to use this if statement instead
+	--it says greater than or equal to because if the seconds overshoot the value 60 then the loop will not execute
+	if self.second >= 60 then
+		self.second = 0
+		self.minute = self.minute + 1
+	end
 
 	--move the ball with the paddle
 	self.ball.x = self.paddle.x + (self.paddle.width / 2) - self.ball.width / 2
@@ -38,4 +51,10 @@ end
 function ServeState:render()
 	self.paddle:render()
 	self.ball:render()
+
+	--render the minutes
+	love.graphics.print('Timer: ' .. tostring(self.minute), VIRTUAL_WIDTH - Y_OFFSET, 20)
+	--render the seconds
+	love.graphics.print(':' .. tostring(math.floor(self.second)), VIRTUAL_WIDTH - Y_OFFSET + 32, 20)
+	--make the numbers shift around dynamically when the number of digits increase...coming soon
 end

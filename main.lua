@@ -124,9 +124,3 @@ function love.draw()
 	push:apply('end')
 end
 
-function displayFPS()
-	--FPS display across all states
-	love.graphics.setFont(gFonts['small'])
-	love.graphics.setColor(0, 1, 1, 1)
-	love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
-end
