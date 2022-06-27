@@ -164,7 +164,7 @@ function PlayState:update(dt)
 
 		--checks for left and right collision
 		--left incoming
-		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dy > 0 and self.ball.dx > 0 then
+		elseif self.ball.x + self.ball.width + 2 >= self.paddle.x and self.ball.dx > 0 and self.ball.dy > 0 then
 			if self.paddle.dx == 0 then
 			 	gSounds['hurt']:play()
 				self.ball.dx = -self.ball.dx
@@ -178,7 +178,7 @@ function PlayState:update(dt)
 			end
 
 		--right incoming
-		elseif self.ball.x - 2 <= self.paddle.x + self.paddle.width and self.ball.dy > 0 then
+		elseif self.ball.x - 2 <= self.paddle.x + self.paddle.width and self.ball.dx < 0 and self.ball.dy > 0 then
 
 			if self.paddle.dx == 0 then
 				gSounds['hurt']:play()
