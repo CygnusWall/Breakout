@@ -4,11 +4,11 @@ function LevelMaker.createMap(level)
 	local bricks = {}
 
 	local numRows = --math.random(1, 5)
-	5
+	10
 	local numCols = --math.random(7, 13)
 	13
 	--lay out bricks so that they touch each other and fill the space
-		for y = 1, numRows do
+		for y = 5, numRows do
 			for x = 1, numCols do
 				b = Brick(
 					--x coordinate

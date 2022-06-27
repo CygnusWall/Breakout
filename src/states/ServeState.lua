@@ -7,6 +7,7 @@ function ServeState:enter(params)
 
 	--ball has to be created since this is the first use
 	self.ball = Ball()
+
 	self.second = 0
 	self.minute = 0
 
@@ -35,6 +36,8 @@ function ServeState:update(dt)
 		self.double_digits = false
 	end
 
+	--self.ball.x = VIRTUAL_WIDTH/ 2
+	--self.ball.y = 20
 	--move the ball with the paddle
 	self.ball.x = self.paddle.x + (self.paddle.width / 2) - self.ball.width / 2
 	self.ball.y = self.paddle.y - 10

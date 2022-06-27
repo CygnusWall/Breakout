@@ -88,7 +88,7 @@ function PlayState:update(dt)
 	if self.ball.y > VIRTUAL_HEIGHT then
 		self.ball.y = VIRTUAL_HEIGHT - self.ball.height
 		self.ball.dy = -self.ball.dy
-		gSounds['wall-hit']:play()
+		--gSounds['wall-hit']:play()
 		self.hearts:hit()
 	end
 
@@ -101,6 +101,7 @@ function PlayState:update(dt)
 			--only check collision if the brick is in play
 			if brick.inPlay and self.ball:collides(brick) then
 				brick:hit()
+				self.hearts.hearts = self.hearts.hearts + 1
 
 				self.start = love.timer.getTime()
 				HIT = true
@@ -112,11 +113,11 @@ function PlayState:update(dt)
 					--reset the ball so it doesn't go through everything
 					self.ball.x = brick.x
 				--from the right
-				elseif self.ball.x + 6 > brick.x + brick.width and self.ball.dx < 0 then
+				elseif self.ball.x + 10 > brick.x + brick.width and self.ball.dx < 0 then
 					self.ball.dx = -self.ball.dx
 					self.ball.x = brick.x + brick.width
 				--from the top 
-				elseif self.ball.y + self.ball.width < brick.y and self.ball.dy > 0 then
+				elseif self.ball.y + self.ball.width >= brick.y and self.ball.dy > 0 then
 					self.ball.dy = -self.ball.dy
 					self.ball.y = brick.y - self.ball.height
 				--from the bottom
