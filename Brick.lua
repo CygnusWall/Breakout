@@ -2,11 +2,13 @@ Brick = Class{}
 
 function Brick:init(x, y)
 	--use for colors and score calculation
-	self.tier = 6
+	self.tier = 1
 	self.hit_count = self.color
 
-	self.color = 4
+	self.color = 1
 	self.hit_count = self.color
+
+	self.score = 0
 
 	self.x = x
 	self.y = y
@@ -28,16 +30,21 @@ function Brick:hit()
 	self.hit_count = self.hit_count - 1
 
 	self.color = self.color - 1
+
+	self.score = self.score + self.color
+
 	if self.color == 0 then
 
 		self.inPlay = false
 	end
 
+	
 
 	if self.hit_count == 0 then
 		self.inPlay = false
 	end
 	
+	return self.score
 
 end
 
@@ -48,4 +55,11 @@ function Brick:render()
 		--then add tier to draw the correct color and tier brick to the screen
 		gFrames['bricks'][self.color], self.x, self.y)
 	end
+
+	
+	
+end
+
+function Brick:returnScore()
+	return self.color
 end

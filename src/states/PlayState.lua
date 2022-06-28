@@ -31,8 +31,12 @@ function PlayState:enter(params)
 	self.ball = params.ball
 	self.ball.skin = params.skin
 
+	self.score = 0
+
+
 	--hearts has to be created since this is the first time use
 	self.hearts = Hearts()
+	self.brick = Brick()
 
 	--allows the player to guide the ball based on what direction the paddle is moving
 	--may be a lot cleaner with an if statement but I wanted to implement it with math
@@ -103,7 +107,7 @@ function PlayState:update(dt)
 				brick:hit()
 				self.hearts.hearts = self.hearts.hearts + 1
 
-				self.start = love.timer.getTime()
+				self.score = self.score + self.brick:returnScore()
 				HIT = true
 				--detect ball's direction and flip dy accordingly
 
@@ -219,9 +223,13 @@ function PlayState:render()
 		brick:render()
 	end
 
+	--self.brick:returnScore()
+
+	love.graphics.print('Score: ' .. tostring(self.score), VIRTUAL_WIDTH - 40, 20)
+
 	--pause text if paused
 	if self.paused then 
 		love.graphics.setFont(gFonts['large'])
-		love.graphics.printf('Paused', 0, VIRTUAL_HEIGHT / 2 - 16, VIRTUAL_WIDTH, 'center')
+		love.graphics.print('Paused', 0, VIRTUAL_HEIGHT / 2 - 16, VIRTUAL_WIDTH, 'center')
 	end
 end
