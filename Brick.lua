@@ -2,14 +2,19 @@ Brick = Class{}
 
 function Brick:init(x, y)
 	--use for colors and score calculation
-	self.tier = 0
-	self.color = 8
+	self.tier = 6
+	self.hit_count = self.color
+
+	self.color = 4
+	self.hit_count = self.color
 
 	self.x = x
 	self.y = y
 
 	self.width = 32
 	self.height = 16
+
+	self.color = self.color * self.tier
 
 	--uesd to determine whether this brick should be rendered
 	self.inPlay = true
@@ -19,11 +24,21 @@ function Brick:hit()
 	--gSounds['brick-hit-2']:play()
 	
 	playSound(gSounds['brick-hit-1'])
+
+	self.hit_count = self.hit_count - 1
+
 	self.color = self.color - 1
 	if self.color == 0 then
 
 		self.inPlay = false
 	end
+
+
+	if self.hit_count == 0 then
+		self.inPlay = false
+	end
+	
+
 end
 
 function Brick:render()

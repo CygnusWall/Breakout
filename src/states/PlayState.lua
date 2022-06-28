@@ -36,7 +36,7 @@ function PlayState:enter(params)
 
 	--allows the player to guide the ball based on what direction the paddle is moving
 	--may be a lot cleaner with an if statement but I wanted to implement it with math
-	self.ball.dx = self.paddle.dx + math.random(-200, 200)
+	--self.ball.dx = self.paddle.dx + math.random(-200, 200)
 	self.ball.dy = -100
 
 end
