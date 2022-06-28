@@ -108,12 +108,12 @@ function PlayState:update(dt)
 				--detect ball's direction and flip dy accordingly
 
 				--from the left
-				if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
+				if self.ball.x + 2 <= brick.x and self.ball.dx > 0 then
 					self.ball.dx = -self.ball.dx
 					--reset the ball so it doesn't go through everything
 					self.ball.x = brick.x
 				--from the right
-				elseif self.ball.x + 10 > brick.x + brick.width and self.ball.dx < 0 then
+				elseif self.ball.x + 10 >= brick.x + brick.width and self.ball.dx < 0 then
 					self.ball.dx = -self.ball.dx
 					self.ball.x = brick.x + brick.width
 				--from the top 

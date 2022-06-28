@@ -3,7 +3,7 @@ Brick = Class{}
 function Brick:init(x, y)
 	--use for colors and score calculation
 	self.tier = 0
-	self.color = 4
+	self.color = 8
 
 	self.x = x
 	self.y = y
@@ -19,8 +19,11 @@ function Brick:hit()
 	--gSounds['brick-hit-2']:play()
 	
 	playSound(gSounds['brick-hit-1'])
+	self.color = self.color - 1
+	if self.color == 0 then
 
-	self.inPlay = false
+		self.inPlay = false
+	end
 end
 
 function Brick:render()
