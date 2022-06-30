@@ -18,6 +18,8 @@ function LevelMaker:init()
 end
 
 function LevelMaker:createMap(level)
+	local chosenCol = 1
+	local chosenTier = 1
 
 
 	local bricks = {}
@@ -27,34 +29,36 @@ function LevelMaker:createMap(level)
 	local numCols = --math.random(7, 13)
 	13
 
-	local highestTier = math.floor(level/5)
+	local highestTier = math.min(4, level % 4 + 1)
 
 	local highestColor = math.min(5, level % 5 + 1)
 
 
 	--lay out bricks so that they touch each other and fill the space
-		for y = 1, numRows, 1 do
+		for y = 1, numRows do
+
+				
 
 			--if we want to enable skipping for this row, it's a coin flip
-			local skipPattern = 2--math.random(1, 2) == 1 and true or false
+			local skipPattern = math.random(1, 2) == 1 and true or false
 
 			--if we want to enable alternating colors for this row, coin flip aswell
-			local alternatePattern = 1--math.random(1, 2) == 1 and true or false
+			local alternatePattern = math.random(1, 2) == 1 and true or false
 
 			--choose colors to alternate between
 			local altCol1 = math.random(1, highestColor)
 			local altCol2 = math.random(1, highestColor)
-			local altTier1 = math.random(0, highestTier)
-			local altTier2 = math.random(0, highestTier)
+			local altTier1 = math.random(1, highestTier)
+			local altTier2 = math.random(1, highestTier)
 
 			--used for skipping a block
-			local skipFlag = 2--math.random(2) == 1 and true or false
+			local skipFlag = math.random(1, 2) == 1 and true or false
 			--used for alternating a block
-			local alternateFlag = math.random(2) == 1 and true or false
+			local alternateFlag = math.random(1, 2) == 1 and true or false
 
 			--if we're not skipping or alternating use this color
 			local solidColor = math.random(1, highestColor)
-			local solidTier = math.random(0, highestTier)
+			local solidTier = math.random(1, highestTier)
 
 
 				for x = 1, numCols do
@@ -68,12 +72,29 @@ function LevelMaker:createMap(level)
 						goto continue
 					else
 					--if the flag is unused in this iteration flip it for the next one
-						--skipFlag = not skipFlag
+						--
+						skipFlag = not skipFlag
 					end
 
 
 
-					b = Brick(
+					
+
+					
+					--if we're alternating find out which color and tier to use
+					if alternatePattern and alternateFlag then
+						chosenCol = 1
+						chosenTier = 1
+				 		--flip the flag
+				 		altternateFlag = not alternateFlag
+				 	else
+				 		chosenCol = 4
+				 		chosenTier = 4
+				 		--flip the flag again so the pattern continues
+				 		alternateFlag = not alternateFlag
+				 	end
+
+				 	b = Brick(
 						--x coordinate
 						(x-1)
 						* 32 --multiply by 32 because that's the brick width
@@ -83,27 +104,13 @@ function LevelMaker:createMap(level)
 						--y coordinate
 						y * 16,
 
-						1,
+						chosenCol,
 
-						3
+						chosenTier
 
 						)
 
-						--b.color = 1
-
-					--[[
-					--if we're alternating find out which color and tier to use
-					if alternatePattern and alternateFlag then
-						b.tru_color = altCol1
-						b.tier = altTier1
-				 		--flip the flag
-				 		altternateFlag = not alternateFlag
-				 	else
-				 		b.tru_color = altCol2
-				 		b.tier = altTier2
-				 		--flip the flag again so the pattern continues
-				 		alternateFlag = not alternateFlag
-				 	end
+						
 
 				 	--if this code is reached it means we're not alternating so use the solid color and solid tier
 				 	--[[if not alternatePattern then

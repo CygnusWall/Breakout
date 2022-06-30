@@ -110,7 +110,7 @@ function PlayState:update(dt)
 				brick:update(dt)
 				self.hearts.hearts = self.hearts.hearts + 1
 
-				self.score = self.score + self.brick:returnScore()
+				--self.score = self.score + self.brick:returnScore()
 				HIT = true
 				--detect ball's direction and flip dy accordingly
 

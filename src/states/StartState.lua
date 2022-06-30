@@ -15,7 +15,7 @@ function StartState:update(dt)
 			gSounds['confirm']:play()
 			gStateMachine:change('serve', {
 				paddle = Paddle(1),
-				bricks = LevelMaker:createMap(4)
+				bricks = LevelMaker:createMap(3)
 
 			})
 		end
