@@ -6,6 +6,9 @@ require 'src/Dependencies'
 
 function love.load()
 
+
+
+
 	-- set the default filter to 'nearest neighbour' so that the pixelated look isn't smoothed out
 	love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -64,6 +67,9 @@ function love.load()
 		['music'] = love.audio.newSource('sounds/music.wav', 'stream')
 	}
 
+
+	
+
 	gStateMachine = StateMachine {
 		['play'] = function() return PlayState() end,
 		['start'] = function() return StartState() end,
@@ -84,6 +90,8 @@ end
 function love.update(dt)
 	gStateMachine:update(dt)
 	
+	
+
 	--reset the keys pressed every frame
 	love.keyboard.keysPressed = {}
 end

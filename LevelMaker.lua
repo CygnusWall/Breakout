@@ -1,6 +1,25 @@
+--used to make the map a certain shape
+	NONE = 1
+	SINGLE_PYRMID = 2
+	MULTI_PYRMID = 3
+
+	--per row patterns
+	SOLID = 1 --makes everything the same color
+	ALTERNATE = 2 --alternate colors
+	SKIP = 3 --skip every other block
+	NONE = 4 --no blocks for this row
+
+
 LevelMaker = Class{}
 
-function LevelMaker.createMap(level)
+function LevelMaker:init()
+
+
+end
+
+function LevelMaker:createMap(level)
+
+
 	local bricks = {}
 
 	local numRows = --math.random(1, 5)
@@ -8,40 +27,50 @@ function LevelMaker.createMap(level)
 	local numCols = --math.random(7, 13)
 	13
 
-	local skip = 1
-	local alternate = 2
+	local highestTier = math.floor(level/5)
+
+	local highestColor = math.min(5, level % 5 + 1)
+
 
 	--lay out bricks so that they touch each other and fill the space
 		for y = 1, numRows, 1 do
 
-			if skip == 1 then
-				--skip = 2
-				
+			--if we want to enable skipping for this row, it's a coin flip
+			local skipPattern = math.random(1, 2) == 1 and true or false
 
-				for x = 3, numCols, alternate do
-					b = Brick(
-						--x coordinate
-						(x-1 * alternate)
-						* 32 --multiply by 32 because that's the brick width
-						+ 8  -- eight pixels of buffer
-						+ (13 - numCols) * 16,
+			--if we want to enable alternating colors for this row, coin flip aswell
+			local alternatePattern = math.random(1, 2) == 1 and true or false
 
-						--y coordinate
-						y * 16
+			--choose colors to alternate between
+			local altCol1 = math.random(1, highestColor)
+			local altCol2 = math.random(1, highestColor)
+			local altTier1 = math.random(1, highestTier)
+			local altTier2 = math.random(1, highestTier)
 
-						)
+			--used for skipping a block
+			local skipFlag = math.random(1, 2) == 1 and true or false
+			--used for alternating a block
+			local alternateFlag = math.random(1, 2) == 1 and true or false
 
-						--insert b into the table of bricks
-						table.insert(bricks, b)
-						
-						
-						
+			--if we're not skipping or alternating use this color
+			local solidColor = math.random(1, highestColor)
+			local solidTier = math.random(1, highestTier)
 
-				end
-			skip = 2
-				
-			else
-				for x = 1, numCols, alternate do
+
+				for x = 1, numCols do
+
+					if skipPattern and skipFlag then
+						--turn skipping off for next iteration
+						skipFlag = not skipFlag
+					
+
+						--workaround of the continue statement in lua
+						goto continue
+					else
+					--if the flag is unused in this iteration flip it for the next one
+						skipFlag = not skipFlag
+					end
+
 					b = Brick(
 						--x coordinate
 						(x-1)
@@ -54,15 +83,40 @@ function LevelMaker.createMap(level)
 
 						)
 
-						--insert b into the table of bricks
-						table.insert(bricks, b)
-						
-						
-					skip = 1	
+						b.color = 1
 
-			end
-			end
+					--if we're alternating find out which color and tier to use
+					if alternatePattern and alternateFlag then
+						b.color = altCol1
+						b.tier = altTier1
+				 		--flip the flag
+				 		altternateFlag = not alternateFlag
+				 	else
+				 		b.color = altCol2
+				 		b.tier = altTier2
+				 		--flip the flag again so the pattern continues
+				 		alternateFlag = not alternateFlag
+				 	end
+
+				 	--if this code is reached it means we're not alternating so use the solid color and solid tier
+				 	if not alternate then
+				 		b.color = solidColor
+				 		b.tier = solidTier
+				 	end
+
+					--insert b into the table of bricks
+					table.insert(bricks, b)
+						
+					--lua's version of the continue statement
+					::continue::
+
+				end
 
 		end
-	return bricks
+
+		if #bricks == 0 then
+			return self.createMap(level)
+		else
+			return bricks
+		end
 end

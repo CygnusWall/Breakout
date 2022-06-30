@@ -40,7 +40,7 @@ function PlayState:enter(params)
 
 	--allows the player to guide the ball based on what direction the paddle is moving
 	--may be a lot cleaner with an if statement but I wanted to implement it with math
-	--self.ball.dx = self.paddle.dx + math.random(-200, 200)
+	self.ball.dx = self.paddle.dx + math.random(-200, 200)
 	self.ball.dy = -100
 
 end
@@ -62,6 +62,8 @@ function PlayState:update(dt)
 	--update positions based on velocity
 	self.paddle:update(dt)
 	self.ball:update(dt)
+
+
 
 	--ball bouncing
 
@@ -105,6 +107,7 @@ function PlayState:update(dt)
 			--only check collision if the brick is in play
 			if brick.inPlay and self.ball:collides(brick) then
 				brick:hit()
+				brick:update(dt)
 				self.hearts.hearts = self.hearts.hearts + 1
 
 				self.score = self.score + self.brick:returnScore()
@@ -206,6 +209,10 @@ function PlayState:update(dt)
 
 		end
 		
+	end
+
+	for k, brick in pairs(self.bricks) do
+		brick:update(dt)
 	end
 
 	if love.keyboard.wasPressed('escape') then
