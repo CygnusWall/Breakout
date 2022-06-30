@@ -36,25 +36,25 @@ function LevelMaker:createMap(level)
 		for y = 1, numRows, 1 do
 
 			--if we want to enable skipping for this row, it's a coin flip
-			local skipPattern = math.random(1, 2) == 1 and true or false
+			local skipPattern = 2--math.random(1, 2) == 1 and true or false
 
 			--if we want to enable alternating colors for this row, coin flip aswell
-			local alternatePattern = math.random(1, 2) == 1 and true or false
+			local alternatePattern = 1--math.random(1, 2) == 1 and true or false
 
 			--choose colors to alternate between
 			local altCol1 = math.random(1, highestColor)
 			local altCol2 = math.random(1, highestColor)
-			local altTier1 = math.random(1, highestTier)
-			local altTier2 = math.random(1, highestTier)
+			local altTier1 = math.random(0, highestTier)
+			local altTier2 = math.random(0, highestTier)
 
 			--used for skipping a block
-			local skipFlag = math.random(1, 2) == 1 and true or false
+			local skipFlag = 2--math.random(2) == 1 and true or false
 			--used for alternating a block
-			local alternateFlag = math.random(1, 2) == 1 and true or false
+			local alternateFlag = math.random(2) == 1 and true or false
 
 			--if we're not skipping or alternating use this color
 			local solidColor = math.random(1, highestColor)
-			local solidTier = math.random(1, highestTier)
+			local solidTier = math.random(0, highestTier)
 
 
 				for x = 1, numCols do
@@ -68,8 +68,10 @@ function LevelMaker:createMap(level)
 						goto continue
 					else
 					--if the flag is unused in this iteration flip it for the next one
-						skipFlag = not skipFlag
+						--skipFlag = not skipFlag
 					end
+
+
 
 					b = Brick(
 						--x coordinate
@@ -79,30 +81,35 @@ function LevelMaker:createMap(level)
 						+ (13 - numCols) * 16,
 
 						--y coordinate
-						y * 16
+						y * 16,
+
+						1,
+
+						3
 
 						)
 
-						b.color = 1
+						--b.color = 1
 
+					--[[
 					--if we're alternating find out which color and tier to use
 					if alternatePattern and alternateFlag then
-						b.color = altCol1
+						b.tru_color = altCol1
 						b.tier = altTier1
 				 		--flip the flag
 				 		altternateFlag = not alternateFlag
 				 	else
-				 		b.color = altCol2
+				 		b.tru_color = altCol2
 				 		b.tier = altTier2
 				 		--flip the flag again so the pattern continues
 				 		alternateFlag = not alternateFlag
 				 	end
 
 				 	--if this code is reached it means we're not alternating so use the solid color and solid tier
-				 	if not alternate then
-				 		b.color = solidColor
+				 	--[[if not alternatePattern then
+				 		b.tru_color = solidColor
 				 		b.tier = solidTier
-				 	end
+				 	end]]--
 
 					--insert b into the table of bricks
 					table.insert(bricks, b)
